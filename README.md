@@ -1,6 +1,6 @@
 ```js
 import { render } from "preact";
-import when from "uwhen";
+import { when } from "uwhen";
 import { useState, useEffect } from "uhooks";
 
 when("my-counter", (element, props, children) => {

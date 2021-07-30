@@ -1,7 +1,7 @@
 {
   "name": "uwhen",
   "description": "When elements",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "source": "./src/index.js",
   "main": "./dist/uwhen.umd.js",
   "module": "./dist/uwhen.es.js",
