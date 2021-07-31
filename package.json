@@ -1,13 +1,12 @@
 {
 	"name": "uwhen",
 	"description": "When Elements",
-	"version": "0.0.9",
+	"version": "0.1.0",
 	"source": "./src/index.js",
 	"main": "./dist/uwhen.umd.js",
 	"module": "./dist/uwhen.es.js",
 	"unpkg": "./dist/uwhen.umd.js",
 	"types": "index.d.ts",
-	"sideEffects": false,
 	"files": [
 		"dist/",
 		"*.d.ts",
