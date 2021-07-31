@@ -1,61 +1,61 @@
 {
-  "name": "uwhen",
-  "description": "When elements",
-  "version": "0.0.8",
-  "source": "./src/index.js",
-  "main": "./dist/uwhen.umd.js",
-  "module": "./dist/uwhen.es.js",
-  "unpkg": "./dist/uwhen.umd.js",
-  "types": "index.d.ts",
-  "sideEffects": false,
-  "files": [
-    "dist/",
-    "*.d.ts",
-    "README.md"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/uwhen.es.js",
-      "require": "./dist/uwhen.umd.js"
-    }
-  },
-  "dependencies": {
-    "uhooks": "^0.2.8",
-    "when-elements": "^0.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "^4.3.2",
-    "vite": "^2.3.8"
-  },
-  "directories": {
-    "example": "example"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kethan/uwhen.git"
-  },
-  "keywords": [
-    "dom",
-    "custom",
-    "elements",
-    "define",
-    "lifecycle",
-    "mount",
-    "unmount",
-    "hooks",
-    "react",
-    "preact"
-  ],
-  "author": "Kethan Surana",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kethan/uwhen/issues"
-  },
-  "homepage": "https://github.com/kethan/uwhen#readme"
+	"name": "uwhen",
+	"description": "When Elements",
+	"version": "0.0.9",
+	"source": "./src/index.js",
+	"main": "./dist/uwhen.umd.js",
+	"module": "./dist/uwhen.es.js",
+	"unpkg": "./dist/uwhen.umd.js",
+	"types": "index.d.ts",
+	"sideEffects": false,
+	"files": [
+		"dist/",
+		"*.d.ts",
+		"README.md"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/uwhen.es.js",
+			"require": "./dist/uwhen.umd.js"
+		}
+	},
+	"dependencies": {
+		"uhooks": "^0.2.8",
+		"when-elements": "^0.2.1"
+	},
+	"devDependencies": {
+		"@types/node": "^16.0.0",
+		"typescript": "^4.3.2",
+		"vite": "^2.3.8"
+	},
+	"directories": {
+		"example": "example"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kethan/uwhen.git"
+	},
+	"keywords": [
+		"dom",
+		"custom",
+		"elements",
+		"define",
+		"lifecycle",
+		"mount",
+		"unmount",
+		"hooks",
+		"react",
+		"preact"
+	],
+	"author": "Kethan Surana",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/kethan/uwhen/issues"
+	},
+	"homepage": "https://github.com/kethan/uwhen#readme"
 }

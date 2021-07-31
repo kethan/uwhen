@@ -1,32 +1,29 @@
 ```js
 import { render } from "preact";
-import { when } from "uwhen";
-import { useState, useEffect } from "uhooks";
+import { when, useState, useEffect } from "uwhen";
 
-when("my-counter", (element, props, children) => {
-    const [count, update] = useState(0);
-    // const [children] = useState([...element.childNodes]);
-    useEffect(() => {
-      console.log("FX on");
-      return () => console.log("FX off");
-    }, []);
+when("my-counter", (element, props) => {
+	const [count, setCount] = useState(parseInt(props.counter) || 0);
+	useEffect(() => {
+		console.log("FX on");
+		return () => console.log("FX off");
+	}, []);
 
-    render(
-      <div>
-        <div>{children}</div>
-        <button class="large btn" onclick={() => update(count - 1)}>
-          -
-        </button>
-        <span class="large value"> {count} </span>
-        <button class="large btn" onclick={() => update(count + 1)}>
-          +
-        </button>
-      </div>,
-      element
-    );
-  });
+	render(
+		<div>
+			<button class="large btn" onclick={() => setCount(count - 1)}>
+				-
+			</button>
+			<span class="large value"> {count} </span>
+			<button class="large btn" onclick={() => setCount(count + 1)}>
+				+
+			</button>
+		</div>,
+		element
+	);
+});
 ```
 
 ```html
-<my-counter></my-counter>
+<my-counter counter="10"></my-counter>
 ```
