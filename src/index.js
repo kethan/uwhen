@@ -8,8 +8,8 @@ const when = (selector, callback) => {
 		for (const attr of element.attributes) {
 			props[[attr.name]] = attr.value;
 		}
-		const hook = hooked(() => callback(element, props, kids));
-		hook();
+		const hook = hooked(callback);
+		hook(element, props, kids);
 		return () => {
 			if (hasEffect(hook)) {
 				dropEffect(hook);
