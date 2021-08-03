@@ -1,29 +1,52 @@
-```js
-import { render } from "preact";
-import { when, useState, useEffect } from "uwhen";
+```jsx
+import { h, render, when, useState, useEffect } from "uwhen";
 
-when("my-counter", (element, props) => {
+setTimeout(() => {
+	const ele = document.getElementById("another-tag");
+	ele.remove();
+}, 3000);
+
+when("another-tag", (element, props, kids) => {
+	useEffect(() => {
+		console.log("another-tag FX on");
+		return () => console.log("another tag removed");
+	}, []);
+	render(
+		element,
+		<div>
+			<div>another-tag content</div>
+			<div>{kids.three}</div>
+		</div>
+	);
+});
+
+when("my-counter", (element, props, slots) => {
 	const [count, setCount] = useState(parseInt(props.counter) || 0);
 	useEffect(() => {
-		console.log("FX on");
-		return () => console.log("FX off");
+		console.log("my-counter on");
+		return () => console.log("my-counter removed");
 	}, []);
 
 	render(
+		element,
 		<div>
-			<button class="large btn" onclick={() => setCount(count - 1)}>
-				-
-			</button>
-			<span class="large value"> {count} </span>
-			<button class="large btn" onclick={() => setCount(count + 1)}>
-				+
-			</button>
-		</div>,
-		element
+			<button onclick={() => setCount(count - 1)}>-</button>
+			<div>Counter: {count}</div>
+			<button onclick={() => setCount(count + 1)}>+</button>
+			<div>{slots.one}</div>
+			<div>{slots.two}</div>
+		</div>
 	);
 });
 ```
 
 ```html
-<my-counter counter="10"></my-counter>
+<my-counter counter="10">
+	<div slot="one">my counter tag slot one</div>
+	<div slot="two">
+		<another-tag id="another-tag">
+			<div slot="three">another tag slot three</div>
+		</another-tag>
+	</div>
+</my-counter>
 ```

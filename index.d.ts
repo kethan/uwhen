@@ -6,5 +6,9 @@ export {
     useRef
 } from 'uhooks';
 
-export type Callback = (element: HTMLElement, props: any) => void;
-export function when(selector: string, callback: Callback): void;
+export { html, render, svg } from 'uhtml';
+import { createPragma } from 'jsx2tag';
+const h = createPragma(html);
+export type Callback = (element: HTMLElement, props: any, slots: any) => void;
+function when(selector: string, callback: Callback): void;
+export { when, h };

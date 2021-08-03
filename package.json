@@ -24,7 +24,9 @@
 		}
 	},
 	"dependencies": {
+		"jsx2tag": "^0.3.0",
 		"uhooks": "^0.2.8",
+		"uhtml": "^2.7.6",
 		"when-elements": "^0.2.1"
 	},
 	"devDependencies": {
