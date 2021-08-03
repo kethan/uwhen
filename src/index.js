@@ -1,56 +1,30 @@
 import { whenAdded } from "when-elements";
-import { createPragma } from 'jsx2tag';
-import { hooked, hasEffect, dropEffect, } from "uhooks";
-import { html } from 'uhtml';
-
-const get = (child, name) => child.getAttribute(name);
-const queryHelper = (attr, arr) => (element) =>
-	[].reduce.call(
-		element.querySelectorAll("[" + attr + "]"),
-		(slot, node) => {
-			let { parentNode } = node;
-			do {
-				if (parentNode === element) {
-					const name = get(node, attr);
-					slot[name] = arr ? [].concat(slot[name] || [], node) : node;
-					break;
-				} else if (
-					/-/.test(parentNode.tagName) ||
-					get(parentNode, "is")
-				)
-					break;
-			} while ((parentNode = parentNode.parentNode));
-			return slot;
-		},
-		{}
-	);
-
-const slot = queryHelper("slot", true);
+import { render, h } from "preact";
+import htm from "htm";
+import { hooked, dropEffect, hasEffect, useEffect } from "uhooks";
+const html = htm.bind(h);
 
 const when = (selector, callback) => {
-	whenAdded(selector, (element) => {
-		const slots = slot(element);
-		const props = {};
-		for (const attr of element.attributes) {
-			props[[attr.name]] = attr.value;
-		}
-		const hook = hooked(callback);
-		hook(element, props, slots);
-		return () => {
-			if (hasEffect(hook)) {
-				dropEffect(hook);
-			}
-		};
-	});
+    const X = (element) => {
+        const Y = (callback) => {
+            render(callback, element);
+        };
+        const hook = hooked(Y);
+        hook(callback);
+        return () => {
+            if (hasEffect(hook)) {
+                dropEffect(hook);
+            }
+        };
+    };
+    whenAdded(selector, X);
 };
 
-export { html, render, svg } from 'uhtml';
-const h = createPragma(html);
-export { when, h };
+export { when, h, html, render };
 export {
-	createContext, useContext,
-	useCallback, useMemo,
-	useEffect, useLayoutEffect,
-	useReducer, useState,
-	useRef
+    createContext, useContext,
+    useCallback, useMemo,
+    useEffect, useLayoutEffect,
+    useReducer, useState,
+    useRef
 } from 'uhooks';

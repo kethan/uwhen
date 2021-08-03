@@ -5,10 +5,8 @@ export {
     useReducer, useState,
     useRef
 } from 'uhooks';
-
-export { html, render, svg } from 'uhtml';
-import { createPragma } from 'jsx2tag';
-const h = createPragma(html);
-export type Callback = (element: HTMLElement, props: any, slots: any) => void;
-function when(selector: string, callback: Callback): void;
-export { when, h };
+export { render, h } from 'preact';
+import { ComponentChild } from 'preact';
+const html = htm.bind(h);
+function when(selector: string, callback: ComponentChild): void;
+export { when, html };
