@@ -1,30 +1,54 @@
-import { whenAdded } from "when-elements";
-import { render, h } from "preact";
-import htm from "htm";
-import { hooked, dropEffect, hasEffect, useEffect } from "uhooks";
-const html = htm.bind(h);
-
-const when = (selector, callback) => {
-    const X = (element) => {
-        const Y = (callback) => {
-            render(callback, element);
-        };
-        const hook = hooked(Y);
-        hook(callback);
-        return () => {
-            if (hasEffect(hook)) {
-                dropEffect(hook);
+const whenCallbacks = new Set();
+const mapElements = new Map();
+const mutationObserver = new window.MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+        if (mutation.type === "attributes") {
+            const { target, attributeName, oldValue } = mutation;
+            if (mapElements.has(target)) {
+                let [attributeChanged, observedAttributes] = mapElements.get(target);
+                if (observedAttributes.includes(attributeName) || observedAttributes.length == 0) {
+                    const value = target.getAttribute(attributeName);
+                    attributeChanged(attributeName, oldValue, value, target);
+                }
             }
-        };
-    };
-    whenAdded(selector, X);
-};
+        }
+    }
+    whenCallbacks.forEach((callback) => callback());
+});
+mutationObserver.observe(document, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+    attributeOldValue: true
+});
 
-export { when, h, html, render };
-export {
-    createContext, useContext,
-    useCallback, useMemo,
-    useEffect, useLayoutEffect,
-    useReducer, useState,
-    useRef
-} from 'uhooks';
+export function when(selector, callback) {
+    setTimeout(check);
+    whenCallbacks.add(check);
+    function check() {
+        document.querySelectorAll(selector).forEach((element) => {
+            if (!mapElements.has(element)) {
+                const { connected = () => { }, disconnected = () => { }, attributeChanged = () => { }, observedAttributes = [] } = callback(element);
+                mapElements.set(element, [attributeChanged, observedAttributes]);
+                connected();
+                removed(selector, element, () => {
+                    mapElements.delete(element);
+                    disconnected();
+                });
+            } else return;
+        });
+    }
+}
+
+function removed(selector, target, callback) {
+    setTimeout(check);
+    whenCallbacks.add(check);
+    function check() {
+        if (target && document.contains(target) && target.matches(selector)) {
+            return;
+        }
+        mapElements.delete(target);
+        whenCallbacks.delete(check);
+        callback();
+    }
+}
