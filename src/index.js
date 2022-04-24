@@ -22,7 +22,7 @@ mutationObserver.observe(document, {
     attributeOldValue: true
 });
 
-export function when(selector, callback) {
+export default function when(selector, callback) {
     setTimeout(check);
     whenCallbacks.add(check);
     function check() {
@@ -31,10 +31,7 @@ export function when(selector, callback) {
                 const { connected = () => { }, disconnected = () => { }, attributeChanged = () => { }, observedAttributes = [] } = callback(element);
                 mapElements.set(element, [attributeChanged, observedAttributes]);
                 connected();
-                removed(selector, element, () => {
-                    mapElements.delete(element);
-                    disconnected();
-                });
+                removed(selector, element, () => disconnected());
             } else return;
         });
     }

@@ -1,52 +1,31 @@
-```jsx
-import { h, render, when, useState, useEffect } from "uwhen";
+Custom elements without customElements.define
 
-setTimeout(() => {
-	const ele = document.getElementById("another-tag");
-	ele.remove();
-}, 3000);
+```js
+import when from "uwhen";
 
-when("another-tag", (element, props, kids) => {
-	useEffect(() => {
-		console.log("another-tag FX on");
-		return () => console.log("another tag removed");
-	}, []);
-	render(
-		element,
-		<div>
-			<div>another-tag content</div>
-			<div>{kids.three}</div>
-		</div>
-	);
-});
+(() => {
+	setTimeout(() => {
+		const el = document.getElementById("tag");
+		el.setAttribute("val", "UWhen");
+		setTimeout(() => {
+			el.remove();
+		}, 2000);
+	}, 2000);
+})();
 
-when("my-counter", (element, props, slots) => {
-	const [count, setCount] = useState(parseInt(props.counter) || 0);
-	useEffect(() => {
-		console.log("my-counter on");
-		return () => console.log("my-counter removed");
-	}, []);
-
-	render(
-		element,
-		<div>
-			<button onclick={() => setCount(count - 1)}>-</button>
-			<div>Counter: {count}</div>
-			<button onclick={() => setCount(count + 1)}>+</button>
-			<div>{slots.one}</div>
-			<div>{slots.two}</div>
-		</div>
-	);
+when("my-tag", (el) => {
+	return {
+		connected: () => (el.textContent = `Hello ${el.getAttribute("val")}`),
+		disconnected: () => console.log("disconnected", el),
+		attributeChanged: (name, oldValue, newValue) =>
+			(el.textContent = `Hello ${newValue}`),
+		observedAttributes: ["val"],
+	};
 });
 ```
 
 ```html
-<my-counter counter="10">
-	<div slot="one">my counter tag slot one</div>
-	<div slot="two">
-		<another-tag id="another-tag">
-			<div slot="three">another tag slot three</div>
-		</another-tag>
-	</div>
-</my-counter>
+<my-tag val="World" id="tag"></my-tag>
 ```
+
+Courtesy: [`When-elements`](https://github.com/indiana-university/when-elements)

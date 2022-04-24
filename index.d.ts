@@ -5,6 +5,5 @@ type LifeCycleCallback = {
     observedAttributes: string[];
 }
 type Callback = ((el: HTMLElement) => LifeCycleCallback);
-
-function when(selector: string, callback: Callback): void;
-export { when };
+declare function when(selector: string, callback: Callback): void;
+export default when;

@@ -33,10 +33,7 @@ function when(selector, callback) {
         }, observedAttributes = [] } = callback(element);
         mapElements.set(element, [attributeChanged, observedAttributes]);
         connected();
-        removed(selector, element, () => {
-          mapElements.delete(element);
-          disconnected();
-        });
+        removed(selector, element, () => disconnected());
       } else
         return;
     });
@@ -54,4 +51,4 @@ function removed(selector, target, callback) {
     callback();
   }
 }
-export { when };
+export { when as default };
