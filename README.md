@@ -3,6 +3,15 @@ Custom elements without customElements.define
 ```js
 import when from "uwhen";
 
+when("my-tag", (el) => {
+	return {
+		connected: () => (el.textContent = `Hello ${el.getAttribute("val")}`),
+		disconnected: () => console.log("disconnected", el),
+		attributeChanged: (name, oldValue, newValue) => (el.textContent = `Hello ${newValue}`),
+		observedAttributes: ["val"],
+	};
+});
+
 (() => {
 	setTimeout(() => {
 		const el = document.getElementById("tag");
@@ -12,16 +21,6 @@ import when from "uwhen";
 		}, 2000);
 	}, 2000);
 })();
-
-when("my-tag", (el) => {
-	return {
-		connected: () => (el.textContent = `Hello ${el.getAttribute("val")}`),
-		disconnected: () => console.log("disconnected", el),
-		attributeChanged: (name, oldValue, newValue) =>
-			(el.textContent = `Hello ${newValue}`),
-		observedAttributes: ["val"],
-	};
-});
 ```
 
 ```html
